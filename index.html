@@ -25,9 +25,9 @@
     </style>
 </head>
 <body>
-<audio autoplay loop>
-    <source src="./index_files/music.mp3" type="audio/mp3"/>
-</audio>
+<img src="./img2.png" width="30px" id="btn">
+        <audio src="./index_files/music.mp3" id="myaudio" controls="controls" loop="false" hidden="true">
+        </audio>
 <style type="text/css">
     .rotateImages{
         -webkit-animation:myRotate 10s linear infinite;
@@ -229,7 +229,22 @@
         runAsync().start();
     })();
 </script>
-
+<script type="text/javascript">
+        var btn=document.getElementById('btn');
+        var audio=document.getElementById('myaudio');
+        var tag = true;
+        btn.onclick = function(){
+            if(tag){
+                alert('关闭');
+                audio.pause();
+                tag = false;
+            }else{
+                alert('播放');
+                audio.play();
+                tag = true;
+            }
+        }
+    </script>
 
 </body>
 </html>
