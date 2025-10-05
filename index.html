@@ -2,7 +2,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>婉莹的小站</title>
+    <title>小培的小站</title>
 
     <link type="text/css" rel="stylesheet" href="./index_files/default.css">
     <script type="text/javascript" src="./index_files/jquery.min.js"></script>
@@ -235,13 +235,14 @@
         var tag = true;
         btn.onclick = function(){
             if(tag){
-                alert('关闭');
-                audio.pause();
-                tag = false;
-            }else{
-                alert('播放');
+				alert('播放');
                 audio.play();
                 tag = true;
+                
+            }else{
+                alert('关闭');
+            	audio.pause();
+                tag = false;
             }
         }
     </script>
