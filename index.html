@@ -15,6 +15,19 @@
     <script type="text/javascript" src="./index_files/functions.js" charset="utf-8"></script>
     <script type="text/javascript" src="./index_files/love.js" charset="utf-8"></script>
     <script type="text/javascript" src="./config.js"></script>
+	<style>
+        /* 标题/文案字体样式 */
+        .love-text {
+            font-family: "Noto Serif SC", "Songti SC", "KaiTi", serif;
+            font-size: 24px;
+            line-height: 1.8;
+            color: #5d4037;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
+	<div class="love-text" id="textContainer"></div>
     <style type="text/css">
         <!--
         .STYLE1 {
@@ -64,7 +77,15 @@
     </div>
 
 </div>
-
+<script>
+        // 渲染文案
+        const textContainer = document.getElementById('textContainer');
+        config.lines.forEach(line => {
+            const p = document.createElement('p');
+            p.textContent = line;
+            textContainer.appendChild(p);
+        });
+</script>
 <script type="text/javascript">
     $('#code').html(config.lines.map(item => {
         return `<span class="say">${item}</span><br>
