@@ -16,28 +16,13 @@
     <script type="text/javascript" src="./index_files/functions.js" charset="utf-8"></script>
     <script type="text/javascript" src="./index_files/love.js" charset="utf-8"></script>
     <script type="text/javascript" src="./config.js"></script>
+    <script type="text/javascript" src="./index_files/carousel.js" charset="utf-8"></script>
 	
 </head>
 <body>
 <img src="./img2.png" width="90px" id="btn">
-        <audio src="./index_files/music.mp3" id="myaudio" controls="controls" loop="false" hidden="true">
+        <audio src="./index_files/music.mp3" id="myaudio" controls="controls" loop="loop" hidden="true">
         </audio>
-<style type="text/css">
-    .rotateImages{
-        -webkit-animation:myRotate 10s linear infinite;
-        animation:myRotate 10s linear infinite;
-    }
-    @-webkit-keyframes myRotate{
-        0%{ -webkit-transform: rotate(0deg);}
-        50%{ -webkit-transform: rotate(180deg);}
-        100%{ -webkit-transform: rotate(360deg);}
-    }
-    @keyframes myRotate{
-        0%{ -webkit-transform: rotate(0deg);}
-        50%{ -webkit-transform: rotate(180deg);}
-        100%{ -webkit-transform: rotate(360deg);}
-    }
-</style>
 
 <div id="main">
     <div id="error">本页面采用HTML5编辑，目前您的浏览器无法显示，请换成谷歌(<a
@@ -57,6 +42,31 @@
         <canvas id="canvas" width="1100" height="680"></canvas>
     </div>
 
+    <!-- 图片轮播：点开爱情树后淡入 -->
+    <div id="photo-carousel" class="photo-carousel">
+        <div class="carousel-head">
+            <span class="line"></span>
+            <span class="title">我们的回忆</span>
+            <span class="line r"></span>
+        </div>
+        <div class="carousel-viewport">
+            <button class="carousel-btn carousel-prev" aria-label="上一张">&#10094;</button>
+            <div class="carousel-track"></div>
+            <button class="carousel-btn carousel-next" aria-label="下一张">&#10095;</button>
+        </div>
+        <div class="carousel-dots"></div>
+    </div>
+    <!-- 跑酷小游戏：爱情闯关跑 -->
+    <div id="love-runner" class="love-runner">
+        <div class="runner-head">
+            <span class="line"></span>
+            <span class="title">爱情闯关跑</span>
+            <span class="line r"></span>
+        </div>
+        <div class="runner-sub">前方是各种难题，跳过去就赢啦！</div>
+        <canvas id="runner-canvas"></canvas>
+        <div class="runner-tips">按 空格 / 点击屏幕 跳跃 · 空中再按可二段跳</div>
+    </div>
 </div>
 <script type="text/javascript">
     $('#code').html(config.lines.map(item => {
@@ -214,6 +224,11 @@
             $await(flowAnimate());
             $await(moveAnimate());
 
+            // 树木生长完成，展开图片轮播
+            if (typeof showPhotoCarousel === 'function') {
+                showPhotoCarousel();
+            }
+
             textAnimate().start();
 
             $await(jumpAnimate());
@@ -225,20 +240,20 @@
 <script type="text/javascript">
         var btn=document.getElementById('btn');
         var audio=document.getElementById('myaudio');
-        var tag = true;
+        var playing = false;
         btn.onclick = function(){
-            if(tag){
-				alert('播放');
+            if(!playing){
                 audio.play();
-                tag = true;
-                
+                playing = true;
+                btn.classList.add('playing');
             }else{
-                alert('关闭');
-            	audio.pause();
-                tag = false;
+                audio.pause();
+                playing = false;
+                btn.classList.remove('playing');
             }
         }
     </script>
+<script type="text/javascript" src="./index_files/runner.js" charset="utf-8"></script>
 
 </body>
 </html>
