@@ -84,16 +84,27 @@
 
     /* ---------------- 尺寸自适应 ---------------- */
     function resize() {
-        // 显示尺寸完全由 CSS wrapper（padding-top固定比例）控制，这里只读取实际尺寸设置内部分辨率
-        var rect = canvas.getBoundingClientRect();
-        var cssW = rect.width;
-        var cssH = rect.height;
-        if (!cssW || cssW < 50) {
-            // 隐藏时用父容器宽度估算
-            var parent = canvas.parentElement;
-            cssW = (parent && parent.clientWidth) || 800;
-            cssH = cssW * (H / W);
+        // 完全由JS用像素值控制显示尺寸，不依赖CSS width:100%——确保任何浏览器/屏幕宽度都撑满
+        var parent = canvas.parentElement;
+        var parentW = 0;
+        if (parent) {
+            parentW = parent.clientWidth;
+            // 父容器隐藏时(clientWidth=0)，向上找已显示的祖先容器
+            var p = parent;
+            while ((!parentW || parentW < 50) && p.parentElement) {
+                p = p.parentElement;
+                parentW = p.clientWidth;
+            }
         }
+        if (!parentW || parentW < 50) {
+            parentW = window.innerWidth || document.documentElement.clientWidth || 800;
+        }
+        // 减去左右border各8px
+        var cssW = Math.max(1, parentW - 16);
+        var cssH = Math.round(cssW * H / W);
+        canvas.style.display = 'block';
+        canvas.style.width = cssW + 'px';
+        canvas.style.height = cssH + 'px';
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.max(1, Math.round(cssW * dpr));
         canvas.height = Math.max(1, Math.round(cssH * dpr));
@@ -473,18 +484,23 @@
         if (!el) return;
         el.style.display = 'block';
         el.classList.add('in');
-        // 多次校准尺寸，确保布局稳定后 canvas 撑满父容器
-        setTimeout(function () { resize(); }, 60);
-        setTimeout(function () { resize(); }, 300);
-        setTimeout(function () { resize(); }, 800);
+        // 显示后多次校准尺寸，确保canvas撑满父容器（微信/手机浏览器布局可能延迟）
+        setTimeout(function () { resize(); }, 50);
+        setTimeout(function () { resize(); }, 200);
+        setTimeout(function () { resize(); }, 500);
+        setTimeout(function () { resize(); }, 1000);
     };
 
     /* ---------------- 初始化 ---------------- */
+    // 多次调用resize，确保布局稳定后尺寸正确（手机/微信浏览器布局可能延迟）
     resize();
+    setTimeout(function(){ resize(); }, 100);
+    setTimeout(function(){ resize(); }, 500);
+    setTimeout(function(){ resize(); }, 1000);
+    // 监听各种尺寸变化事件
     window.addEventListener('resize', resize);
-    // 页面完全加载后再校准一次尺寸（防止字体/图片加载导致重排）
+    window.addEventListener('orientationchange', function(){ setTimeout(resize, 300); });
     window.addEventListener('load', function () { resize(); });
-    // 监听容器尺寸变化，自动适配
     if (window.ResizeObserver) {
         var ro = new ResizeObserver(function () { resize(); });
         ro.observe(canvas);

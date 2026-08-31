@@ -114,7 +114,8 @@ a {color:#000;font-size:14px;}
 /* ===== 跑酷小游戏：爱情闯关跑 ===== */
 .love-runner{
     display:none;
-    width:min(900px, 94%);
+    width:94%;
+    max-width:900px;
     margin:46px auto 80px auto;
     font-family:"Ma Shan Zheng",cursive;
 }
@@ -130,25 +131,15 @@ a {color:#000;font-size:14px;}
     margin:0 14px;vertical-align:middle;
 }
 .runner-sub{text-align:center;color:#b06972;font-size:16px;letter-spacing:1px;margin:0 0 14px;}
-/* wrapper 用 padding-top 固定 900:420 宽高比，canvas 绝对定位撑满，彻底不依赖JS设置尺寸 */
-.runner-canvas-wrap{
-    position:relative;
-    width:100%;
-    padding-top:46.67%; /* 420/900，保持宽高比 */
+/* 游戏画布：显示尺寸完全由JS用像素值控制，CSS只负责外观 */
+#runner-canvas{
+    display:block;
+    box-sizing:border-box;
     border-radius:18px;
-    overflow:hidden;
+    cursor:pointer;
     box-shadow:0 14px 40px rgba(192,72,82,0.22);
     border:8px solid #fff;
     background:#ffeef0;
-    box-sizing:border-box;
-}
-#runner-canvas{
-    position:absolute;
-    top:0;left:0;
-    width:100% !important;
-    height:100% !important;
-    display:block;
-    cursor:pointer;
     touch-action:manipulation;
 }
 .runner-tips{text-align:center;color:#b0898e;font-size:14px;margin-top:10px;letter-spacing:1px;}
