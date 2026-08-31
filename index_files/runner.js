@@ -84,15 +84,17 @@
 
     /* ---------------- 尺寸自适应 ---------------- */
     function resize() {
-        // 强制宽度为父容器的100%（百分比，不是像素，确保不会被固定为小尺寸）
-        canvas.style.width = '100%';
-        var cssW = canvas.clientWidth;
+        // 显示尺寸完全由 CSS wrapper（padding-top固定比例）控制，这里只读取实际尺寸设置内部分辨率
+        var rect = canvas.getBoundingClientRect();
+        var cssW = rect.width;
+        var cssH = rect.height;
         if (!cssW || cssW < 50) {
-            cssW = (canvas.parentElement && canvas.parentElement.clientWidth) || 800;
+            // 隐藏时用父容器宽度估算
+            var parent = canvas.parentElement;
+            cssW = (parent && parent.clientWidth) || 800;
+            cssH = cssW * (H / W);
         }
-        var cssH = cssW * (H / W);
         dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.style.height = cssH + 'px';
         canvas.width = Math.max(1, Math.round(cssW * dpr));
         canvas.height = Math.max(1, Math.round(cssH * dpr));
     }
