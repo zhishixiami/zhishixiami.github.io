@@ -23,12 +23,12 @@ var config = {
     //   src     : 图片路径（相对网页根目录）
     //   caption : 图片下方显示的一句话（不需要就留空 ""）
     photos: [
-        { src: "img/1.png", caption: "极光海浪，不及你一个拥抱" },
-        { src: "img/2.png", caption: "雨夜的城市，有你就有温度" },
+        { src: "img/1.jpg", caption: "极光海浪，不及你一个拥抱" },
+        { src: "img/2.jpg", caption: "雨夜的城市，有你就有温度" },
         { src: "img/3.jpg", caption: "跨越屏幕，也想奔向你" },
         { src: "img/4.jpg", caption: "云野的夜，心跳为你而亮" },
         { src: "img/5.jpg", caption: "你的可爱，我来收藏" },
         { src: "img/6.jpg", caption: "玫瑰与夕阳，见证我们的时光" },
-        { src: "img/7.png", caption: "雨夜共读，岁月静好" }
+        { src: "img/7.jpg", caption: "雨夜共读，岁月静好" }
     ]
 }

@@ -84,14 +84,16 @@
 
     /* ---------------- 尺寸自适应 ---------------- */
     function resize() {
-        var parent = canvas.parentElement;
-        var cssW = parent.clientWidth || 800;
+        // 宽度由 CSS width:100% 控制，这里只读取实际显示宽度，计算高度
+        var cssW = canvas.clientWidth;
+        if (!cssW || cssW < 50) {
+            cssW = (canvas.parentElement && canvas.parentElement.clientWidth) || 800;
+        }
         var cssH = cssW * (H / W);
         dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.style.width = cssW + 'px';
         canvas.style.height = cssH + 'px';
-        canvas.width = Math.round(cssW * dpr);
-        canvas.height = Math.round(cssH * dpr);
+        canvas.width = Math.max(1, Math.round(cssW * dpr));
+        canvas.height = Math.max(1, Math.round(cssH * dpr));
     }
     var dpr = 1;
 
@@ -462,9 +464,29 @@
         else if (state === 'over') startGame();
     }
 
+    /* ---------------- 供外部调用：爱情树长成后淡入游戏 ---------------- */
+    window.showLoveRunner = function () {
+        var el = document.getElementById('love-runner');
+        if (!el) return;
+        el.style.display = 'block';
+        el.classList.add('in');
+        // 等浏览器布局完成后重新计算 canvas 尺寸（隐藏时尺寸为0）
+        setTimeout(function () {
+            resize();
+            try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+        }, 60);
+    };
+
     /* ---------------- 初始化 ---------------- */
     resize();
     window.addEventListener('resize', resize);
+    // 页面完全加载后再校准一次尺寸（防止字体/图片加载导致重排）
+    window.addEventListener('load', function () { resize(); });
+    // 监听容器尺寸变化，自动适配
+    if (window.ResizeObserver) {
+        var ro = new ResizeObserver(function () { resize(); });
+        ro.observe(canvas);
+    }
     document.addEventListener('keydown', onKey);
     canvas.addEventListener('pointerdown', onPointer);
     canvas.addEventListener('touchstart', function (e) { e.preventDefault(); }, { passive: false });
