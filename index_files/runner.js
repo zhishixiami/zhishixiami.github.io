@@ -84,7 +84,8 @@
 
     /* ---------------- 尺寸自适应 ---------------- */
     function resize() {
-        // 宽度由 CSS width:100% 控制，这里只读取实际显示宽度，计算高度
+        // 强制宽度为父容器的100%（百分比，不是像素，确保不会被固定为小尺寸）
+        canvas.style.width = '100%';
         var cssW = canvas.clientWidth;
         if (!cssW || cssW < 50) {
             cssW = (canvas.parentElement && canvas.parentElement.clientWidth) || 800;
@@ -470,11 +471,10 @@
         if (!el) return;
         el.style.display = 'block';
         el.classList.add('in');
-        // 等浏览器布局完成后重新计算 canvas 尺寸（隐藏时尺寸为0）
-        setTimeout(function () {
-            resize();
-            try { window.dispatchEvent(new Event('resize')); } catch (e) {}
-        }, 60);
+        // 多次校准尺寸，确保布局稳定后 canvas 撑满父容器
+        setTimeout(function () { resize(); }, 60);
+        setTimeout(function () { resize(); }, 300);
+        setTimeout(function () { resize(); }, 800);
     };
 
     /* ---------------- 初始化 ---------------- */
