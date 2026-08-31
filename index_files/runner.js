@@ -233,6 +233,8 @@
 
     /* ---------------- 绘制 ---------------- */
     function draw() {
+        ctx.save();
+        ctx.scale(canvas.width / W, canvas.height / H);
         ctx.clearRect(0, 0, W, H);
         // 背景
         var g = ctx.createLinearGradient(0, 0, 0, H);
@@ -297,6 +299,7 @@
         // 遮罩（ready / over）
         if (state === 'ready') drawReady();
         else if (state === 'over') drawOver();
+        ctx.restore();
     }
 
     function drawObstacle(o) {
