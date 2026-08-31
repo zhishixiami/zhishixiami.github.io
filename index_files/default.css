@@ -1,15 +1,137 @@
-body{margin:0;padding:0;background:#ffe;font-size:14px;font-family:'微软雅黑','宋体',sans-serif;color:#231F20;overflow:auto}
+body{
+    margin:0;padding:0;
+    background:linear-gradient(180deg,#fff6f0 0%,#ffeceb 55%,#ffe3de 100%);
+    font-size:14px;font-family:'微软雅黑','宋体',sans-serif;color:#231F20;overflow-x:auto;overflow-y:auto;
+}
 a {color:#000;font-size:14px;}
 #main{width:100%;}
 #wrap{position:relative;margin:0 auto;width:1100px;height:680px;margin-top:10px;}
-#text{width:400px;height:425px;left:60px;top:80px;position:absolute;font-size:72px;line-height:2;font-family:"Ma Shan Zheng",cursive;color:##221118;text-shadow:0 0 10px rgba(255,255,255,0.5);}
-#code{display:none;font-size:16px;}
-#clock-box {position:absolute;left:60px;top:550px;font-size:28px;display:none;}
-#clock-box a {font-size:28px;text-decoration:none;}
-#clock{margin-left:48px;}
-#clock .digit {font-size:64px;}
+#text{
+    width:400px;height:425px;left:60px;top:80px;position:absolute;
+    font-size:72px;line-height:2;font-family:"Ma Shan Zheng",cursive;
+    color:#221118;text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+#code{display:none;font-size:25px;}
+#clock-box {
+    position:absolute;left:60px;top:540px;font-size:22px;display:none;
+    background:rgba(255,255,255,0.7);
+    padding:12px 18px 14px 18px;border-radius:16px;
+    box-shadow:0 4px 18px rgba(233,120,120,0.18);
+    border:1px solid rgba(255,255,255,0.9);
+}
+#clock-box a {font-size:22px;text-decoration:none;}
+#clock{margin-left:10px;margin-top:4px;}
+#clock .digit {font-size:36px;color:#e04a5a;font-weight:700;}
 #canvas{margin:0 auto;width:1100px;height:680px;}
 #error{margin:0 auto;text-align:center;margin-top:60px;display:none;}
 .hand{cursor:pointer;}
 .say{margin-left:5px;}
 .space{margin-right:150px;}
+
+/* ===== 音乐按钮 ===== */
+#btn{
+    position:fixed;top:16px;right:20px;width:58px;height:58px;object-fit:cover;
+    border-radius:50%;cursor:pointer;z-index:99;
+    border:3px solid rgba(255,255,255,0.9);
+    box-shadow:0 4px 16px rgba(233,120,120,0.35);
+    transition:transform .25s, box-shadow .25s, opacity .25s;
+}
+#btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(233,120,120,0.5);}
+#btn.playing{animation:btnSpin 4s linear infinite;}
+@keyframes btnSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* ===== 图片轮播 ===== */
+.photo-carousel{
+    display:none;
+    width:min(920px, 92%);
+    margin:30px auto 70px auto;
+    font-family:"Ma Shan Zheng",cursive;
+}
+.photo-carousel.in{animation:fadeUp .9s ease both;}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(26px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+.carousel-head{text-align:center;margin-bottom:16px;}
+.carousel-head .line{
+    display:inline-block;width:64px;height:2px;vertical-align:middle;
+    background:linear-gradient(90deg,transparent,#e78b93);
+}
+.carousel-head .line.r{background:linear-gradient(90deg,#e78b93,transparent);}
+.carousel-head .title{
+    display:inline-block;font-size:26px;color:#c04852;letter-spacing:4px;
+    margin:0 14px;vertical-align:middle;
+}
+
+.carousel-viewport{
+    position:relative;border-radius:18px;overflow:hidden;
+    box-shadow:0 14px 40px rgba(192,72,82,0.22);
+    border:8px solid #fff;background:#fff;
+}
+.carousel-track{position:relative;width:100%;padding-bottom:75%;overflow:hidden;background:#fff;}
+.carousel-slide{
+    position:absolute;left:0;top:0;width:100%;height:100%;
+    opacity:0;transform:scale(1.03);
+    transition:opacity .9s ease, transform .9s ease;
+}
+.carousel-slide.active{opacity:1;transform:scale(1);}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;}
+.carousel-caption{
+    position:absolute;left:0;right:0;bottom:0;padding:30px 18px 14px;
+    background:linear-gradient(transparent, rgba(60,20,24,0.6));
+    color:#fff;font-size:20px;letter-spacing:2px;text-align:center;
+}
+
+.carousel-btn{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+    width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(255,255,255,0.88);color:#c04852;font-size:22px;
+    display:flex;align-items:center;justify-content:center;padding-bottom:3px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.18);
+    transition:transform .2s, background .2s, color .2s;
+}
+.carousel-btn:hover{background:#fff;color:#a83542;transform:translateY(-50%) scale(1.12);}
+.carousel-prev{left:14px;}
+.carousel-next{right:14px;}
+
+.carousel-dots{text-align:center;margin-top:16px;}
+.carousel-dot{
+    display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 6px;
+    background:#ecc3c6;cursor:pointer;transition:all .3s;
+}
+.carousel-dot.active{width:26px;border-radius:6px;background:#d85a68;}
+/* 落款“爱你”移到右侧 */
+#code .say .sign{
+    position:absolute;
+    left:320px;   /* 数值越大越靠右 */
+    top:360px;    /* 数值越大越靠下 */
+    color:#c04852;
+    letter-spacing:2px;
+    font-size:25px;
+    white-space:nowrap;
+}
+/* ===== 跑酷小游戏：爱情闯关跑 ===== */
+.love-runner{
+    width:min(900px, 94%);
+    margin:46px auto 80px auto;
+    font-family:"Ma Shan Zheng",cursive;
+}
+.runner-head{text-align:center;margin-bottom:6px;}
+.runner-head .line{
+    display:inline-block;width:64px;height:2px;vertical-align:middle;
+    background:linear-gradient(90deg,transparent,#e78b93);
+}
+.runner-head .line.r{background:linear-gradient(90deg,#e78b93,transparent);}
+.runner-head .title{
+    display:inline-block;font-size:26px;color:#c04852;letter-spacing:4px;
+    margin:0 14px;vertical-align:middle;
+}
+.runner-sub{text-align:center;color:#b06972;font-size:16px;letter-spacing:1px;margin:0 0 14px;}
+#runner-canvas{
+    display:block;width:100%;border-radius:18px;cursor:pointer;
+    box-shadow:0 14px 40px rgba(192,72,82,0.22);
+    border:8px solid #fff;background:#ffeef0;
+    touch-action:manipulation;
+}
+.runner-tips{text-align:center;color:#b0898e;font-size:14px;margin-top:10px;letter-spacing:1px;}

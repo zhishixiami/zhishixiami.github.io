@@ -1,20 +1,6 @@
 /*
  * http://love.hackerzhou.me
  */
-
-// variables
-var $win = $(window);
-var clientWidth = $win.width();
-var clientHeight = $win.height();
-
-$(window).resize(function() {
-    var newWidth = $win.width();
-    var newHeight = $win.height();
-    if (newWidth != clientWidth && newHeight != clientHeight) {
-        location.replace(location);
-    }
-});
-
 (function($) {
 	$.fn.typewriter = function() {
 		this.each(function() {
@@ -36,7 +22,6 @@ $(window).resize(function() {
 		return this;
 	};
 })(jQuery);
-
 function timeElapse(date){
 	var seconds = (+ new Date() - date.getTime()) / 1000;
 	var days = Math.floor(seconds / (3600 * 24));
