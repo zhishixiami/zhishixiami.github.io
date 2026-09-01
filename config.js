@@ -29,6 +29,9 @@ var config = {
         { src: "img/4.jpg", caption: "云野的夜，心跳为你而亮" },
         { src: "img/5.jpg", caption: "你的可爱，我来收藏" },
         { src: "img/6.jpg", caption: "玫瑰与夕阳，见证我们的时光" },
-        { src: "img/7.jpg", caption: "雨夜共读，岁月静好" }
+        { src: "img/7.jpg", caption: "雨夜共读，岁月静好" },
+        { src: "img/8.jpg", caption: "星辰落满肩头，爱意藏进眼眸" },
+        { src: "img/9.jpg", caption: "风过云野不留，你在心头不走" },
+        { src: "img/10.jpg", caption: "四季轮回不休，有你便是春秋" }
     ]
 }
